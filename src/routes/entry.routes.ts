@@ -4,10 +4,10 @@ import { EntryRepository } from '../repositories/entry.repository';
 
 const router = express.Router();
 const targetUrl = 'https://news.ycombinator.com';
-const hackerNewsRepository = new EntryRepository();
-const hackerNewsController = new EntryController(hackerNewsRepository, targetUrl);
+const entriesRepository = new EntryRepository();
+const entriesController = new EntryController(entriesRepository, targetUrl);
 
-router.get('/crawl', hackerNewsController.crawlAndStore.bind(hackerNewsController));
-router.get('/items', hackerNewsController.getItems.bind(hackerNewsController));
+router.get('/crawl', entriesController.crawlAndStore.bind(entriesController));
+router.get('/list', entriesController.getItems.bind(entriesController));
 
 export default router;

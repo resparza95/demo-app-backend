@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import axios from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import { EntryRepository } from '../repositories/entry.repository';
 
 export class EntryController {
@@ -23,17 +23,20 @@ export class EntryController {
 
         $('.athing').each((i, element) => {
           const $row = $(element);
+          const positionElement = $row.find('.rank');
           const titleElement = $row.find('.titleline > a');
-          const subtextElement = $row.next('.subtext');
+          const subtextElement = $row.next();
 
+          const position = positionElement.text();
           const title = titleElement.text();
-          const pointsText = subtextElement.find('.score').text();
+          const pointsText = subtextElement.find('.subtext > .subline > .score').text();
           const commentText = subtextElement.find('a:contains("comment")').text();
 
           const points = pointsText ? parseInt(pointsText.split(' ')[0]) : undefined;
           const commentCount = commentText ? parseInt(commentText.split('\u00a0')[0]) : undefined; // \u00a0 is &nbsp;
 
           itemsToStore.push({
+            position,
             title,
             points,
             commentCount,
@@ -42,7 +45,7 @@ export class EntryController {
 
         await this.entryRepository.clearAllItems();
         await this.entryRepository.saveItems(itemsToStore);
-        res.json({ message: 'Hacker News data crawled and stored successfully.', itemCount: itemsToStore.length });
+        res.json({ message: 'Entries stored successfully.', itemCount: itemsToStore.length });
       } else {
         res.status(response.status).send(`Failed to fetch URL: ${this.targetUrl}`);
       }
@@ -57,8 +60,8 @@ export class EntryController {
       const items = await this.entryRepository.getAllItems();
       res.json(items);
     } catch (error: any) {
-      console.error('Error fetching items:', error);
-      res.status(500).send(`Error fetching items: ${error.message}`);
+      console.error('Error fetching entries:', error);
+      res.status(500).send(`Error fetching entries: ${error.message}`);
     }
   }
 }

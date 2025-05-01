@@ -3,6 +3,7 @@ import sequelize from '../config/db.config';
 
 interface EntryAttributes {
   id: number;
+  position?: number | null;
   title: string;
   points?: number | null;
   commentCount?: number | null;
@@ -13,6 +14,7 @@ interface EntryCreationAttributes extends Omit<EntryAttributes, 'id' | 'createdA
 
 class Entry extends Model<EntryAttributes, EntryCreationAttributes> implements EntryAttributes {
   public id!: number;
+  public position?: number;
   public title!: string;
   public points?: number;
   public commentCount?: number;
@@ -25,6 +27,9 @@ class Entry extends Model<EntryAttributes, EntryCreationAttributes> implements E
           type: DataTypes.INTEGER,
           autoIncrement: true,
           primaryKey: true,
+        },
+        position: {
+          type: DataTypes.INTEGER,
         },
         title: {
           type: DataTypes.STRING,
@@ -42,7 +47,7 @@ class Entry extends Model<EntryAttributes, EntryCreationAttributes> implements E
         },
       },
       {
-        tableName: 'items',
+        tableName: 'entries',
         sequelize,
       }
     );
