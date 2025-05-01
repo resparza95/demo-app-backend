@@ -6,4 +6,7 @@ export class UsageRepository {
     await newItem.save();
   }
 
+  async getAllItems(): Promise<UsageItem[]> {
+    return await UsageItem.findAll({ order: [['createdAt', 'DESC']] });
+  }
 }
