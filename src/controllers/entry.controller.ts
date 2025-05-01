@@ -55,13 +55,34 @@ export class EntryController {
     }
   }
 
-  async getItems(req: Request, res: Response): Promise<void> {
+  async getEntries(req: Request, res: Response): Promise<void> {
     try {
       const items = await this.entryRepository.getAllItems();
       res.json(items);
     } catch (error: any) {
       console.error('Error fetching entries:', error);
       res.status(500).send(`Error fetching entries: ${error.message}`);
+    }
+  }
+
+  async removeEntries(req: Request, res: Response): Promise<void> {
+    try {
+      await this.entryRepository.clearAllItems();
+      res.json({ message: 'Entries deleted successfully.'});
+    } catch (error: any) {
+      console.error('Error deleting entries:', error);
+      res.status(500).send(`Error deleting entries: ${error.message}`);
+    }
+  }
+
+  async getFilteredEntriesByWords (req: Request, res: Response): Promise<void>  {
+    try {
+      const minWords = 5;
+      const entries = await this.entryRepository.findEntriesWithTitleWordCount(minWords, req.body.comparator, req.body.orderField);
+      res.status(200).json(entries);
+    } catch (error: any) {
+      console.error('Error fetching filtered entries:', error);
+      res.status(500).json({ message: 'Failed to fetch filtered entries' });
     }
   }
 }

@@ -8,6 +8,8 @@ const entriesRepository = new EntryRepository();
 const entriesController = new EntryController(entriesRepository, targetUrl);
 
 router.get('/crawl', entriesController.crawlAndStore.bind(entriesController));
-router.get('/list', entriesController.getItems.bind(entriesController));
+router.get('/list', entriesController.getEntries.bind(entriesController));
+router.post('/listFiltered', entriesController.getFilteredEntriesByWords.bind(entriesController));
+router.delete('/delete', entriesController.removeEntries.bind(entriesController));
 
 export default router;
