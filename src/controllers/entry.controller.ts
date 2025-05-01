@@ -2,14 +2,18 @@ import { Request, Response } from 'express';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { EntryRepository } from '../repositories/entry.repository';
+import UsageItem from '../models/usage.model';
+import { UsageRepository } from '../repositories/usagerepository';
 
 export class EntryController {
   private entryRepository: EntryRepository;
   private targetUrl: string;
+  private usageRepository: UsageRepository;
 
-  constructor(entryRepository: EntryRepository, targetUrl: string) {
+  constructor(entryRepository: EntryRepository, targetUrl: string, usageRepository: UsageRepository) {
     this.entryRepository = entryRepository;
     this.targetUrl = targetUrl;
+    this.usageRepository = usageRepository;
   }
 
   async crawlAndStore(req: Request, res: Response): Promise<void> {
@@ -43,8 +47,8 @@ export class EntryController {
           });
         });
 
-        await this.entryRepository.clearAllItems();
-        await this.entryRepository.saveItems(itemsToStore);
+        await this.entryRepository.clearAllEntries();
+        await this.entryRepository.saveEntries(itemsToStore);
         res.json({ message: 'Entries stored successfully.', itemCount: itemsToStore.length });
       } else {
         res.status(response.status).send(`Failed to fetch URL: ${this.targetUrl}`);
@@ -57,7 +61,7 @@ export class EntryController {
 
   async getEntries(req: Request, res: Response): Promise<void> {
     try {
-      const items = await this.entryRepository.getAllItems();
+      const items = await this.entryRepository.getAllEntries();
       res.json(items);
     } catch (error: any) {
       console.error('Error fetching entries:', error);
@@ -67,7 +71,7 @@ export class EntryController {
 
   async removeEntries(req: Request, res: Response): Promise<void> {
     try {
-      await this.entryRepository.clearAllItems();
+      await this.entryRepository.clearAllEntries();
       res.json({ message: 'Entries deleted successfully.'});
     } catch (error: any) {
       console.error('Error deleting entries:', error);
@@ -79,6 +83,17 @@ export class EntryController {
     try {
       const minWords = 5;
       const entries = await this.entryRepository.findEntriesWithTitleWordCount(minWords, req.body.comparator, req.body.orderField);
+      
+      const appliedFilter = `${req.body.comparator} than ${minWords} words`;
+      const appliedOrder = `Ordered by ${req.body.orderField} column DESC`;
+
+      const obj: any = {
+        appliedFilter,
+        appliedOrder
+      }
+
+      await this.usageRepository.saveItem(obj);
+
       res.status(200).json(entries);
     } catch (error: any) {
       console.error('Error fetching filtered entries:', error);

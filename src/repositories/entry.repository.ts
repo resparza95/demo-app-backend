@@ -1,16 +1,15 @@
-import { Op } from 'sequelize';
 import Entry from '../models/entry.model';
-import { Sequelize, DataTypes } from 'sequelize';
+import { Sequelize } from 'sequelize';
 export class EntryRepository {
-  async saveItems(items: Omit<Entry, 'id' | 'createdAt'>[]): Promise<void> {
+  async saveEntries(items: Omit<Entry, 'id' | 'createdAt'>[]): Promise<void> {
     await Entry.bulkCreate(items);
   }
 
-  async getAllItems(): Promise<Entry[]> {
+  async getAllEntries(): Promise<Entry[]> {
     return await Entry.findAll({ order: [['createdAt', 'DESC']] });
   }
 
-  async clearAllItems(): Promise<void> {
+  async clearAllEntries(): Promise<void> {
     await Entry.destroy({ where: {} });
   }
 

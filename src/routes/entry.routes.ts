@@ -1,11 +1,13 @@
 import express from 'express';
 import { EntryController } from '../controllers/entry.controller';
 import { EntryRepository } from '../repositories/entry.repository';
+import { UsageRepository } from '../repositories/usagerepository';
 
 const router = express.Router();
 const targetUrl = 'https://news.ycombinator.com';
 const entriesRepository = new EntryRepository();
-const entriesController = new EntryController(entriesRepository, targetUrl);
+const usageRepository = new UsageRepository();
+const entriesController = new EntryController(entriesRepository, targetUrl, usageRepository);
 
 router.get('/crawl', entriesController.crawlAndStore.bind(entriesController));
 router.get('/list', entriesController.getEntries.bind(entriesController));
