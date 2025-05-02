@@ -1,7 +1,7 @@
 import express from 'express';
 import { EntryController } from '../controllers/entry.controller';
 import { EntryRepository } from '../repositories/entry.repository';
-import { UsageRepository } from '../repositories/usagerepository';
+import { UsageRepository } from '../repositories/usage.repository';
 
 const router = express.Router();
 const targetUrl = 'https://news.ycombinator.com';

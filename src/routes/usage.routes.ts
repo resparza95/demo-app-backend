@@ -1,5 +1,5 @@
 import express from 'express';
-import { UsageRepository } from '../repositories/usagerepository';
+import { UsageRepository } from '../repositories/usage.repository';
 import { UsageController } from '../controllers/usage.controller';
 
 const router = express.Router();

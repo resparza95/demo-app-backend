@@ -3,7 +3,7 @@ import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { EntryRepository } from '../repositories/entry.repository';
 import UsageItem from '../models/usage.model';
-import { UsageRepository } from '../repositories/usagerepository';
+import { UsageRepository } from '../repositories/usage.repository';
 
 export class EntryController {
   private entryRepository: EntryRepository;

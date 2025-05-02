@@ -4,7 +4,7 @@ import sequelize from '../config/db.config';
 interface EntryAttributes {
   id: number;
   position?: number | null;
-  title: string;
+  title: string | null;
   points?: number | null;
   commentCount?: number | null;
   createdAt?: Date;
@@ -30,6 +30,7 @@ class Entry extends Model<EntryAttributes, EntryCreationAttributes> implements E
         },
         position: {
           type: DataTypes.INTEGER,
+          allowNull: false,
         },
         title: {
           type: DataTypes.STRING,

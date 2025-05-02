@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UsageRepository } from '../repositories/usagerepository';
+import { UsageRepository } from '../repositories/usage.repository';
 
 export class UsageController {
   private usageRepository: UsageRepository;

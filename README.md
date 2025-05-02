@@ -5,7 +5,7 @@ Sequelize ORM using Typescript with MySQL database with Express REST API.
 ```
 npm install
 ```
-restore databse file [demodb_backup.sql]
+restore database file [demodb_backup.sql]
 
 ### Run
 ```
