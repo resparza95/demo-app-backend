@@ -16,14 +16,14 @@ const usageRepository = {
         {
             "id": 2,
             "appliedFilter": "> than 5 words",
-            "appliedOrder": "duplicate@example.com",
+            "appliedOrder": "Ordered by commentCount column DESC",
             "createdAt": "2025-05-02T15:42:04.000Z",
             "updatedAt": "2025-05-02T15:42:04.000Z"
         },
         {
             "id": 3,
             "appliedFilter": "> than 5 words",
-            "appliedOrder": "duplicate@example.com",
+            "appliedOrder": "Ordered by commentCount column DESC",
             "createdAt": "2025-05-02T15:42:04.000Z",
             "updatedAt": "2025-05-02T15:42:04.000Z"
         }
@@ -53,14 +53,14 @@ describe('UsageController', () => {
         {
             "id": 2,
             "appliedFilter": "> than 5 words",
-            "appliedOrder": "duplicate@example.com",
+            "appliedOrder": "Ordered by commentCount column DESC",
             "createdAt": "2025-05-02T15:42:04.000Z",
             "updatedAt": "2025-05-02T15:42:04.000Z"
         },
         {
             "id": 3,
             "appliedFilter": "> than 5 words",
-            "appliedOrder": "duplicate@example.com",
+            "appliedOrder": "Ordered by commentCount column DESC",
             "createdAt": "2025-05-02T15:42:04.000Z",
             "updatedAt": "2025-05-02T15:42:04.000Z"
         }
